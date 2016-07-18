@@ -1,20 +1,20 @@
 #!/bin/bash
-# 
+#
 # Since: April, 2016
 # Author: gerald.venzl@oracle.com
 # Description: Build script for building Oracle Database Docker images.
-# 
+#
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
-# 
+#
 # Copyright (c) 2014-2016 Oracle and/or its affiliates. All rights reserved.
-# 
+#
 
 usage() {
 cat << EOF
 
 Usage: buildDockerImage.sh -v [version] [-e | -s | -x] [-p] [-i]
 Builds a Docker Image for Oracle Database.
-  
+
 Parameters:
    -v: version to build
        Choose one of: $(for i in $(ls -d */); do echo -n "${i%%/}  "; done)
@@ -57,7 +57,7 @@ DOCKEROPS=""
 ORACLE_PWD=""
 GENERATED_PWD=1
 
-while getopts "hesxivp:" optname; do
+while getopts "hesxiv:p:" optname; do
   case "$optname" in
     "h")
       usage
@@ -162,10 +162,10 @@ echo ""
 
 if [ $? -eq 0 ]; then
 cat << EOF
-  Oracle Database Docker Image for '$EDITION' version $VERSION is ready to be extended: 
-    
+  Oracle Database Docker Image for '$EDITION' version $VERSION is ready to be extended:
+
     --> $IMAGE_NAME
-    
+
 EOF
   if [ "$GENERATED_PWD" -eq 1 ]; then
     cat <<EOF
@@ -176,10 +176,9 @@ EOF
 
 cat << EOF
   Build completed in $BUILD_ELAPSED seconds.
-  
+
 EOF
 
 else
   echo "Oracle Database Docker Image was NOT successfully created. Check the output and correct any reported problems with the docker build operation."
 fi
-
